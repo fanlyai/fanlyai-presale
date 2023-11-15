@@ -132,7 +132,7 @@ export default function Home() {
 
       <Image src="/logo.png" width={350} height={200} className="py-8"/>
      
-      <div className="flex rounded-xl  filter backdrop-blur-sm  justify-start p-12 items-start border border-[#C80FB0]  w-full md:w-[550px] h-[600px] md:h-[650px]">
+      <div className="flex rounded-xl  filter backdrop-blur-sm  justify-start p-12 items-start border border-[#C80FB0]  w-full md:w-[550px] h-[650px] md:h-[650px]">
         <div>
 
           <div className="flex tracking-widest flex-col text-center">
