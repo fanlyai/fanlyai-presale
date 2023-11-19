@@ -7,8 +7,14 @@ import abi from "./contractabi.json";
 const jose = Josefin_Sans({ weight: "400", subsets: ["latin"] });
 const out = Outfit({ weight: "200", subsets: ["latin"] });
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useRouter } from 'next/router'
+
 
 export default function Home() {
+  const router = useRouter()
+const { pathname, asPath, query } = router
+// change just the locale and maintain all other route information including href's query
+
   const [progress, setProgress] = useState(0);
   const [isRefCodeValid, setIsRefCodeValid] = useState(false);
 
@@ -249,3 +255,4 @@ export const getServerSideProps = async ({ locale }) => ({
       ...(await serverSideTranslations(locale, ['common']))
   }
 });
+
