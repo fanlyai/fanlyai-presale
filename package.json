@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "core-js": "^3.33.3",
     "ethers": "^5.7.0",
     "i18next": "^23.7.6",
     "next": "13.5.4",
