@@ -1,0 +1,18 @@
+{
+
+    "min":" Min Alım" ,
+    "max": "Max Alım",
+    "price":"Önsatış Fiyatı",
+    "per":"için",
+    "ref":"Referans kodunu giriniz",
+    "amount":"$FAIN adedini giriniz",
+    "total":"Toplam",
+    "wallet":"Lütfen cüzdanınızı bağlayın",
+    "placeholderref":"Referans Kodu",
+    "placeholderrefpls":"Lütfen geçerli bir referans kodu giriniz",
+    "placeholderamount":"$FAIN Miktarı",
+    "button_min":"Miktar minimum sayıdan yüksek olmalı",
+    "button_max":"Miktar maximum sayıdan düşük olmalı",
+    "button_buy":"Satın Al",
+    "walletshow":"Cüzdan: "
+}

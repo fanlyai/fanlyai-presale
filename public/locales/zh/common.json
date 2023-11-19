@@ -1,0 +1,18 @@
+
+{
+    "min":"最小购买量" ,
+    "max": "最大购买量",
+    "price":"预售价格",
+    "per":"每",
+    "ref":"输入参考代码",
+    "amount":"输入 $FAIN 金额",
+    "total":"全部的",
+    "wallet":"请连接钱包",
+    "placeholderref":"参考代码",
+    "placeholderrefpls":"请输入有效的参考代码",
+    "placeholderamount":"$FAIN 金额",
+    "button_min":"金额必须大于最小值",
+    "button_max":"金额必须低于最大金额",
+    "button_buy":"立即购买",
+    "walletshow":"钱包: "
+}

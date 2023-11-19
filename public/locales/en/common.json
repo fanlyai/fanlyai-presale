@@ -1,0 +1,19 @@
+
+
+{
+    "min":" Min Buy" ,
+    "max": "Max Buy",
+    "price":"Presale Price",
+    "per":"per",
+    "ref":"Enter REF Code",
+    "amount":"Enter $FAIN amount",
+    "total":"Total",
+    "wallet":"Please connect wallet",
+    "placeholderref":"Reference Code",
+    "placeholderrefpls":"Please Enter Valid Reference Code",
+    "placeholderamount":"$FAIN Amount",
+    "button_min":"Amount must be greater than min",
+    "button_max":"Amount must be lower than max",
+    "button_buy":"Buy Now",
+    "walletshow":"Wallet: "
+}

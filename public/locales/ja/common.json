@@ -1,0 +1,19 @@
+
+
+{
+    "min":"最小購入",
+    "max": "最大購入",
+    "price":"前売り価格",
+    "per":"ペール",
+    "amount":"$FAIN 金額を入力してください",
+    "total":"合計",
+    "wallet":"ウォレットを接続してください",
+    "ref":"参照コードを入力してください",
+    "placeholderref":"参照コード",
+    "placeholderrefpls":"有効な参照コードを入力してください",
+    "placeholderamount":"$FAIN 額",
+    "button_min":"量は最小値より大きい必要があります",
+    "button_max":"金額は最大値よりも低くなければなりません",
+    "button_buy":"今すぐ購入",
+    "walletshow":"財布： "
+}

@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { Josefin_Sans, Outfit } from "next/font/google";
 import { useEffect, useState } from "react";
-
+import { useTranslation } from 'next-i18next';
 import Web3 from "web3";
-import ProgressBar from "@/components/ProgressBar";
 import abi from "./contractabi.json";
 const jose = Josefin_Sans({ weight: "400", subsets: ["latin"] });
 const out = Outfit({ weight: "200", subsets: ["latin"] });
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export default function Home() {
   const [progress, setProgress] = useState(0);
@@ -17,6 +17,8 @@ export default function Home() {
   const [amount, setAmount] = useState("");
   const [ref, setRef] = useState("");
   const [bnb, setBnb] = useState();
+  const { t } = useTranslation();
+
 
   function calculate(amount) {
     return amount;
@@ -130,6 +132,10 @@ export default function Home() {
       setIsRefCodeValid(false);
     }
   }, [ref]);
+
+ 
+
+
   return (
     <main
       className={`flex min-h-screen  tracking-widest flex-col items-center   pb-8 `}
@@ -156,39 +162,39 @@ export default function Home() {
         <div>
           <div className="flex tracking-widest flex-col text-center">
             <p >
-              MIN BUY : <span className="text-lg"> 1000 $FAIN</span>{" "}
+            {t('min')} : <span className="text-lg"> 1000 $FAIN</span>{" "}
             </p>
             <p >
-              MAX BUY : <span className="text-lg"> 1000000000 $FAIN</span>{" "}
+            {t('max')} : <span className="text-lg"> 1000000000 $FAIN</span>{" "}
             </p>
             <p >
-              PRESALE PRICE :{" "}
-              <span className="text-lg"> 20.834 FAIN per 0.1 $BNB</span>{" "}
+            {t('price')} :
+              <span className="text-lg"> 20.834 FAIN {t('per')} 0.1 $BNB</span>{" "}
             </p>
           </div>
           <div className="pt-4 pb-2 tracking-widest w-full md:w-[450px] text-center flex flex-col justify-center">
-            <p className=" tracking-widest py-2">Enter REF Code</p>
+            <p className=" tracking-widest py-2">{t('ref')}</p>
             <input
               maxLength={6}
               className="w-full placeholder-[#b8a2b8] disabled:cursor-not-allowed text-black p-2 bg-[#e6cce6] rounded-lg"
-              placeholder="Reference Code"
+              placeholder={t('placeholderref')}
               onChange={(event) => setRef(event.target.value)}
             ></input>
             <p className=" tracking-widest pb-2 pt-4">
-              Enter $FAIN Amount
+            {t('amount')}
             </p>
             <input
               disabled={isRefCodeValid ? false : true}
               className="w-full placeholder-[#b8a2b8] disabled:cursor-not-allowed disabled:opacity-40 p-2 bg-[#e6cce6]  rounded-lg"
               placeholder={
-                !isRefCodeValid ? "Please enter valid reference code" : "Amount"
+                !isRefCodeValid ? t('placeholderrefpls'): t('placeholderamount')
               }
               value={amount}
               onChange={(event) => setAmount(event.target.value)}
             ></input>
             <div className=" flex flex-col items-center text-xl pt-4">
-              <div className="flex  items-center justify-center">Total: {calculate(amount)} $FAIN <span><Image className="pb-1" src="/test4.png" width={32} height={32}></Image></span> </div>
-              <div>Total: {calculateBNB(amount)}  $BNB</div>
+              <div className="flex  items-center justify-center">{t('total')}: {calculate(amount)} $FAIN <span><Image className="pb-1" src="/test4.png" width={32} height={32}></Image></span> </div>
+              <div>{t('total')}: {calculateBNB(amount)}  $BNB</div>
              
             </div>
           </div>
@@ -199,8 +205,8 @@ export default function Home() {
               className="text-black disabled:opacity-40 tracking-widest border border-black  uppercase  bg-white w-full mb-2 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
             >
               {walletAddress
-                ? "wallet: " + walletAddress.substring(0, 9) + "..."
-                : "Connect Wallet"}
+                ? t('walletshow') + walletAddress.substring(0, 9) + "..."
+                : t('wallet')}
             </button>
             <button
               onClick={() => buyTokens(amount, ref)}
@@ -214,16 +220,16 @@ export default function Home() {
               className="text-black border border-black tracking-widest uppercase bg-white w-full disabled:opacity-40 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
             >
               {calculate(amount) < 1000
-                ? "Amount must be greater then min"
+                ? t('button_min')
                 : calculate(amount) > 1000000000
-                ? "Amount must be lower then max"
-                : "Buy Now"}
+                ? t('button_max')
+                : t('button_buy')}
             </button>
             {walletAddress ? (
               " "
             ) : (
               <p className="text-red-600 py-2 flex justify-center">
-                Please Connect Wallet
+               {t('wallet')}
               </p>
             )}
             {/* <ProgressBar percentage={progress} /> */}
@@ -238,3 +244,8 @@ export default function Home() {
     </main>
   );
 }
+export const getServerSideProps = async ({ locale }) => ({
+  props: {
+      ...(await serverSideTranslations(locale, ['common']))
+  }
+});
