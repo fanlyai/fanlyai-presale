@@ -6,11 +6,14 @@ import Web3 from "web3";
 import abi from "./contractabi.json";
 const jose = Josefin_Sans({ weight: "400", subsets: ["latin"] });
 const out = Outfit({ weight: "200", subsets: ["latin"] });
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 
 
 
 export default function Home() {
+  const BSC_MAINNET_RPC = "https://bsc-dataseed1.binance.org/"; // BSC Mainnet RPC URL
+ 
+  
 
 
   const [isRefCodeValid, setIsRefCodeValid] = useState(false);
@@ -20,7 +23,7 @@ export default function Home() {
   const [amount, setAmount] = useState("");
   const [ref, setRef] = useState("");
 
-  const { t } = useTranslation();
+
 
 
   function calculate(amount) {
@@ -38,6 +41,7 @@ export default function Home() {
           method: "eth_requestAccounts",
         });
         setWalletAddress(accounts[0]);
+        console.log(walletAddress)
       } catch (err) {
         console.error(err);
       }
@@ -45,7 +49,7 @@ export default function Home() {
       alert("Please install MetaMask!");
     }
   };
-  const contractAddress = "0x54179aE9742BD85a900cBcCf7CbDB35F1Fd626c8";
+  const contractAddress = "0x7857272fFF892694a8D12D3C4a3974e775de7CD0";
 
   console.log(typeof abi);
 
@@ -61,7 +65,7 @@ export default function Home() {
   }
 
   async function isReferralCodeValid(refCode) {
-    const web3 = new Web3(window.ethereum);
+    const web3 = new Web3(new Web3.providers.HttpProvider(BSC_MAINNET_RPC));
     const contract = new web3.eth.Contract(abi, contractAddress);
     try {
       const referrerAddress = await contract.methods
@@ -78,18 +82,12 @@ export default function Home() {
   const buyTokens = async (amount, refCode) => {
     try {
       // Initialize Web3 and contract
-      const web3 = new Web3(window.ethereum); // Assumes MetaMask is used
+     // Assumes MetaMask is used
+     const web3 = new Web3(window.ethereum);
       const contract = new web3.eth.Contract(abi, contractAddress);
 
-      // Request account access if needed
-      await window.ethereum.enable();
-
-      // Get user's account
-      const accounts = await web3.eth.getAccounts();
-      if (accounts.length === 0) throw new Error("No account found");
-
-      const account = accounts[0];
-
+ 
+    
       // Calculate required BNB based on the token amount and rate
       const rate = await contract.methods.rate().call();
       const rateInt = parseInt(rate); // Get the rate from the contract
@@ -102,14 +100,15 @@ export default function Home() {
         (amount / updateRate).toString(),
         "ether"
       );
-      console.log(requiredBNB / 10 ** 18);
+      console.log(requiredBNB );
       console.log(refCode);
-      // Call the buyTokens function
+      
       await contract.methods
-        .buyTokens(amount * 10 ** 18, refCode)
+        .buyTokens(amount * 10 ** 9, refCode)
         .send({
-          from: account,
-          value: requiredBNB,
+          from: walletAddress,
+          value: requiredBNB ,
+          gasPrice: '20000000000'
         })
         .on("transactionHash", (hash) => {
           console.log("Transaction hash:", hash);
@@ -125,9 +124,18 @@ export default function Home() {
     }
   };
   useEffect(() => {
-    connectWalletHandler();
+    if (window.ethereum) {
+      connectWalletHandler();
+    }
   }, []);
 
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', (accounts) => {
+        setWalletAddress(accounts[0] || '');
+      });
+    }
+  }, []);
   useEffect(() => {
     if (ref) {
       isReferralCodeValid(ref).then(setIsRefCodeValid);
@@ -141,7 +149,7 @@ export default function Home() {
 
   return (
     <main
-      className={`flex min-h-screen  tracking-widest flex-col items-center   pb-8 `}
+      className={`flex min-h-screen bg-white tracking-widest flex-col items-center   pb-8 `}
     >
       <Image
         src="/ormblue.png"
@@ -150,11 +158,11 @@ export default function Home() {
         width={800}
         height={300}
       ></Image>
-      <div className={out.className}>
+    
         <div className={`text-5xl py-12 text-black ${out.className}`}>
           fanly<span className="text-[#C80FB0]">AI</span>
         </div>
-      </div>
+     
 
       <p className={`text-[#C80FB0] text-3xl pb-8  ${out.className}`}>$FAIN private sale</p>
 
@@ -165,39 +173,39 @@ export default function Home() {
         <div>
           <div className="flex tracking-widest flex-col text-center">
             <p >
-            {t('min')} : <span className="text-lg"> 1000 $FAIN</span>{" "}
+            min buy : <span className="text-lg"> 1000 $FAIN</span>{" "}
             </p>
             <p >
-            {t('max')} : <span className="text-lg"> 1000000000 $FAIN</span>{" "}
+            max buy : <span className="text-lg"> 1000000000 $FAIN</span>{" "}
             </p>
             <p >
-            {t('price')} :
-              <span className="text-lg"> 20.834 FAIN {t('per')} 0.1 $BNB</span>{" "}
+            price :
+              <span className="text-lg"> 20.834 FAIN per 0.1 $BNB</span>{" "}
             </p>
           </div>
           <div className="pt-4 pb-2 tracking-widest w-full md:w-[450px] text-center flex flex-col justify-center">
-            <p className=" tracking-widest py-2">{t('ref')}</p>
+            <p className=" tracking-widest py-2">Enter REF Code</p>
             <input
               maxLength={6}
               className="w-full placeholder-[#b8a2b8] disabled:cursor-not-allowed text-black p-2 bg-[#e6cce6] rounded-lg"
-              placeholder={t('placeholderref')}
+              placeholder="please enter reference code"
               onChange={(event) => setRef(event.target.value)}
             ></input>
             <p className=" tracking-widest pb-2 pt-4">
-            {t('amount')}
+            Enter $FAIN amount
             </p>
             <input
               disabled={isRefCodeValid ? false : true}
               className="w-full placeholder-[#b8a2b8] disabled:cursor-not-allowed disabled:opacity-40 p-2 bg-[#e6cce6]  rounded-lg"
               placeholder={
-                !isRefCodeValid ? t('placeholderrefpls'): t('placeholderamount')
+                !isRefCodeValid ?"please enter reference code": "$FAIN amount"
               }
               value={amount}
               onChange={(event) => setAmount(event.target.value)}
             ></input>
             <div className=" flex flex-col items-center text-xl pt-4">
-              <div className="flex  items-center justify-center">{t('total')}: {calculate(amount)} $FAIN <span><Image className="pb-1" src="/test4.png" width={32} height={32}></Image></span> </div>
-              <div>{t('total')}: {calculateBNB(amount)}  $BNB</div>
+              <div className="flex  items-center justify-center">Total: {calculate(amount)} $FAIN <span><Image className="pb-1" src="/test4.png" width={32} height={32}></Image></span> </div>
+              <div>Total: {calculateBNB(amount)}  $BNB</div>
              
             </div>
           </div>
@@ -208,13 +216,13 @@ export default function Home() {
               className="text-black disabled:opacity-40 tracking-widest border border-black  uppercase  bg-white w-full mb-2 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
             >
               {walletAddress
-                ? t('walletshow') + walletAddress.substring(0, 9) + "..."
-                : t('wallet')}
+                ? "Wallet: "+ walletAddress.substring(0, 9) + "..."
+                : "Please connect wallet"}
             </button>
             <button
               onClick={() => buyTokens(amount, ref)}
               disabled={
-                calculate(amount) < 1000 ||
+                calculate(amount) < 10 ||
                 calculate(amount) > 1000000000 ||
                 !isRefCodeValid
                   ? true
@@ -222,17 +230,17 @@ export default function Home() {
               }
               className="text-black border border-black tracking-widest uppercase bg-white w-full disabled:opacity-40 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
             >
-              {calculate(amount) < 1000
-                ? t('button_min')
+              {calculate(amount) < 10
+                ? "Amount must be greater than min"
                 : calculate(amount) > 1000000000
-                ? t('button_max')
-                : t('button_buy')}
+                ? "Amount must be lower than max"
+                : "Buy Now"}
             </button>
             {walletAddress ? (
               " "
             ) : (
               <p className="text-red-600 py-2 flex justify-center">
-               {t('wallet')}
+               "Please connect wallet"
               </p>
             )}
             {/* <ProgressBar percentage={progress} /> */}
@@ -247,9 +255,3 @@ export default function Home() {
     </main>
   );
 }
-export const getServerSideProps = async ({ locale }) => ({
-  props: {
-      ...(await serverSideTranslations(locale, ['common']))
-  }
-});
-
