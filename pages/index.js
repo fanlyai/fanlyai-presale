@@ -208,7 +208,7 @@ export default function Home() {
         });
     } catch (error) {
       console.error("Error in buyTokens function:", error);
-      setError(error);
+      alert(error)
     }
   };
   useEffect(() => {
@@ -308,7 +308,7 @@ export default function Home() {
               className="text-black disabled:opacity-40 tracking-widest border border-black  uppercase  bg-white w-full mb-2 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
             >
               {walletAddress
-                ? error.toString() + "..."
+                ?"wallet: " + walletAddress.substring(0,9) + "..."
                 : "Please connect wallet"}
             </button>
 
