@@ -225,7 +225,7 @@ export default function Home() {
             <button
               onClick={() => buyTokens(amount, ref)}
               disabled={
-                calculate(amount) < 1250 ||
+                calculate(amount) < 125 ||
                 calculate(amount) > 312500 ||
                 !isRefCodeValid
                   ? true
@@ -233,7 +233,7 @@ export default function Home() {
               }
               className="text-black border border-black tracking-widest uppercase bg-white w-full disabled:opacity-40 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
             >
-              {calculate(amount) < 1250
+              {calculate(amount) < 125
                 ? "Amount must be greater than min"
                 : calculate(amount) > 312500
                 ? "Amount must be lower than max"
