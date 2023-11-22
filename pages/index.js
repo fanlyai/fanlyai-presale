@@ -35,15 +35,9 @@ export default function Home() {
   // Connect to MetaMask and initialize web3 instance
 
   const connectWalletHandler = async () => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
 
-    if (isMobile) {
-      // Redirect to MetaMask app
-      const deeplink = 'https://metamask.app.link/dapp/presale.fanlyai.com';
-      window.location.href = deeplink;
-    } else {
-      alert('Please use a mobile device to connect to MetaMask');
-    }
+  
     if (typeof window.ethereum !== "undefined") {
       try {
         const accounts = await window.ethereum.request({
