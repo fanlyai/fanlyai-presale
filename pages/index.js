@@ -223,7 +223,7 @@ const[error , setError] = useState("");
                 ? "Wallet: "+ walletAddress.substring(0, 9) + "..."
                 : "Please connect wallet"}
             </button>
-            <p>{error}</p>
+            
             <button
               onClick={() => buyTokens(amount, ref)}
               onTouchStart={()=>buyTokens(amount, ref)}
@@ -243,6 +243,7 @@ const[error , setError] = useState("");
                 ? "Amount must be lower than max"
                 : "Buy Now"}
             </button>
+            <p className="text-black">{error}</p>
             {walletAddress ? (
               " "
             ) : (
