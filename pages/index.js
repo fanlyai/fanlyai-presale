@@ -49,7 +49,7 @@ export default function Home() {
       alert("Please install MetaMask!");
     }
   };
-  const contractAddress = "0x7857272fFF892694a8D12D3C4a3974e775de7CD0";
+  const contractAddress = "0xdEeE1Bfb78a62DC74f99dDC5241fca9053F4E99d";
 
   console.log(typeof abi);
 
@@ -180,7 +180,7 @@ export default function Home() {
             </p>
             <p >
             price :
-              <span className="text-lg"> 20.834 FAIN per 0.1 $BNB</span>{" "}
+              <span className="text-lg"> 20.834 FAIN per 1 $BNB</span>{" "}
             </p>
           </div>
           <div className="pt-4 pb-2 tracking-widest w-full md:w-[450px] text-center flex flex-col justify-center">
