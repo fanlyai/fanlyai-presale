@@ -226,7 +226,7 @@ const[error , setError] = useState("");
             
             <button
               onClick={() => buyTokens(amount, ref)}
-              onTouchStart={()=>buyTokens(amount, ref)}
+              
               disabled={
                 calculate(amount) < 12 ||
                 calculate(amount) > 312500 ||
