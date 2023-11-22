@@ -303,7 +303,7 @@ export default function Home() {
           </div>
           <div className="w-full ">
             <button
-              disabled={walletAddress ? true : false}
+              disabled={true}
               onClick={connectWalletHandler}
               className="text-black disabled:opacity-40 tracking-widest border border-black  uppercase  bg-white w-full mb-2 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
             >
@@ -315,11 +315,7 @@ export default function Home() {
             <button
               onClick={() => buyTokens(amount, ref)}
               disabled={
-                calculate(amount) < 12 ||
-                calculate(amount) > 312500 ||
-                !isRefCodeValid
-                  ? true
-                  : false
+              true
               }
               className="text-black border border-black tracking-widest uppercase bg-white w-full disabled:opacity-40 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
             >
