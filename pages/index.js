@@ -54,12 +54,12 @@ export default function Home() {
   console.log(typeof abi);
 
   function calculateBNB(amount) {
-    let result = amount * (0.000048).toFixed(6);
+    let result = amount * (0.00008).toFixed(6);
     if (amount == 10000) {
-      return 0.48;
+      return 0.8;
     }
-    if (amount == 100) {
-      return 0.0048;
+    if (amount == 10) {
+      return 0.0008;
     }
     return result;
   }
@@ -173,20 +173,20 @@ export default function Home() {
         <div>
           <div className="flex tracking-widest flex-col text-center">
             <p >
-            min buy : <span className="text-lg"> 1000 $FAIN</span>{" "}
+            min buy : <span className="text-lg"> 1250 $FAIN</span>{" "}
             </p>
             <p >
-            max buy : <span className="text-lg"> 1000000000 $FAIN</span>{" "}
+            max buy : <span className="text-lg"> 312500 $FAIN</span>{" "}
             </p>
             <p >
             price :
-              <span className="text-lg"> 20.834 FAIN per 1 $BNB</span>{" "}
+              <span className="text-lg"> 12500 $FAIN per 1 $BNB</span>{" "}
             </p>
           </div>
           <div className="pt-4 pb-2 tracking-widest w-full md:w-[450px] text-center flex flex-col justify-center">
             <p className=" tracking-widest py-2">Enter REF Code</p>
             <input
-              maxLength={6}
+              maxLength={8}
               className="w-full placeholder-[#b8a2b8] disabled:cursor-not-allowed text-black p-2 bg-[#e6cce6] rounded-lg"
               placeholder="please enter reference code"
               onChange={(event) => setRef(event.target.value)}
@@ -222,17 +222,17 @@ export default function Home() {
             <button
               onClick={() => buyTokens(amount, ref)}
               disabled={
-                calculate(amount) < 10 ||
-                calculate(amount) > 1000000000 ||
+                calculate(amount) < 1250 ||
+                calculate(amount) > 312500 ||
                 !isRefCodeValid
                   ? true
                   : false
               }
               className="text-black border border-black tracking-widest uppercase bg-white w-full disabled:opacity-40 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
             >
-              {calculate(amount) < 10
+              {calculate(amount) < 1250
                 ? "Amount must be greater than min"
-                : calculate(amount) > 1000000000
+                : calculate(amount) > 312500
                 ? "Amount must be lower than max"
                 : "Buy Now"}
             </button>
