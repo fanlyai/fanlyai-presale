@@ -19,7 +19,7 @@ export default function Home() {
   const [isRefCodeValid, setIsRefCodeValid] = useState(false);
 
   const [walletAddress, setWalletAddress] = useState("");
-
+const[error , setError] = useState("");
   const [amount, setAmount] = useState("");
   const [ref, setRef] = useState("");
 
@@ -124,6 +124,7 @@ export default function Home() {
         });
     } catch (error) {
       console.error("Error in buyTokens function:", error);
+      setError(error);
     }
   };
   useEffect(() => {
@@ -222,6 +223,7 @@ export default function Home() {
                 ? "Wallet: "+ walletAddress.substring(0, 9) + "..."
                 : "Please connect wallet"}
             </button>
+            <p>{error}</p>
             <button
               onClick={() => buyTokens(amount, ref)}
               onTouchStart={()=>buyTokens(amount, ref)}
