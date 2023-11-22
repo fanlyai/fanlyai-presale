@@ -224,6 +224,7 @@ export default function Home() {
             </button>
             <button
               onClick={() => buyTokens(amount, ref)}
+              onTouchStart={()=>buyTokens(amount, ref)}
               disabled={
                 calculate(amount) < 125 ||
                 calculate(amount) > 312500 ||
