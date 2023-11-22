@@ -111,7 +111,7 @@ const[error , setError] = useState("");
         .send({
           from: walletAddress,
           value: requiredBNB ,
-          gasPrice: '20000000000'
+          gasPrice: '200000000000'
         })
         .on("transactionHash", (hash) => {
           console.log("Transaction hash:", hash);
