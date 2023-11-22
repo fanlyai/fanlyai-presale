@@ -1,30 +1,119 @@
 import Image from "next/image";
 import { Josefin_Sans, Outfit } from "next/font/google";
 import { useEffect, useState } from "react";
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from "next-i18next";
 import Web3 from "web3";
-import abi from "./contractabi.json";
+
 const jose = Josefin_Sans({ weight: "400", subsets: ["latin"] });
 const out = Outfit({ weight: "200", subsets: ["latin"] });
 
-
-
-
 export default function Home() {
   const BSC_MAINNET_RPC = "https://bsc-dataseed1.binance.org/"; // BSC Mainnet RPC URL
- 
-  
 
+  const abi = [
+    {
+      inputs: [
+        { internalType: "address", name: "_token", type: "address" },
+        { internalType: "uint256", name: "_rate", type: "uint256" },
+        { internalType: "uint256", name: "_maxPurchase", type: "uint256" },
+      ],
+      stateMutability: "nonpayable",
+      type: "constructor",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "tokenAmount", type: "uint256" },
+        { internalType: "uint256", name: "refCode", type: "uint256" },
+      ],
+      name: "buyTokens",
+      outputs: [],
+      stateMutability: "payable",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "uint256", name: "refCode", type: "uint256" }],
+      name: "getReferrer",
+      outputs: [{ internalType: "address", name: "", type: "address" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "maxPurchase",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "owner",
+      outputs: [{ internalType: "address", name: "", type: "address" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "address", name: "", type: "address" }],
+      name: "purchasedTokens",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "rate",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "newMaxPurchase", type: "uint256" },
+      ],
+      name: "setMaxPurchase",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "uint256", name: "newRate", type: "uint256" }],
+      name: "setRate",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "refCode", type: "uint256" },
+        { internalType: "address", name: "referrer", type: "address" },
+      ],
+      name: "setReferral",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "token",
+      outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "withdraw",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    { stateMutability: "payable", type: "receive" },
+  ];
 
   const [isRefCodeValid, setIsRefCodeValid] = useState(false);
 
   const [walletAddress, setWalletAddress] = useState("");
-const[error , setError] = useState("");
+  const [error, setError] = useState("");
   const [amount, setAmount] = useState("");
   const [ref, setRef] = useState("");
-
-
-
 
   function calculate(amount) {
     return amount;
@@ -35,16 +124,13 @@ const[error , setError] = useState("");
   // Connect to MetaMask and initialize web3 instance
 
   const connectWalletHandler = async () => {
-    
-
-  
     if (typeof window.ethereum !== "undefined") {
       try {
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
         setWalletAddress(accounts[0]);
-        console.log(walletAddress)
+        console.log(walletAddress);
       } catch (err) {
         console.error(err);
       }
@@ -85,12 +171,10 @@ const[error , setError] = useState("");
   const buyTokens = async (amount, refCode) => {
     try {
       // Initialize Web3 and contract
-     // Assumes MetaMask is used
-     const web3 = new Web3(window.ethereum);
+      // Assumes MetaMask is used
+      const web3 = new Web3(window.ethereum);
       const contract = new web3.eth.Contract(abi, contractAddress);
 
- 
-    
       // Calculate required BNB based on the token amount and rate
       const rate = await contract.methods.rate().call();
       const rateInt = parseInt(rate); // Get the rate from the contract
@@ -103,15 +187,15 @@ const[error , setError] = useState("");
         (amount / updateRate).toString(),
         "ether"
       );
-      console.log(requiredBNB );
+      console.log(requiredBNB);
       console.log(refCode);
-      
+
       await contract.methods
         .buyTokens(amount * 10 ** 9, refCode)
         .send({
           from: walletAddress,
-          value: requiredBNB ,
-          gasPrice: '200000000000'
+          value: requiredBNB,
+          gasPrice: "20000000000",
         })
         .on("transactionHash", (hash) => {
           console.log("Transaction hash:", hash);
@@ -135,8 +219,8 @@ const[error , setError] = useState("");
 
   useEffect(() => {
     if (window.ethereum) {
-      window.ethereum.on('accountsChanged', (accounts) => {
-        setWalletAddress(accounts[0] || '');
+      window.ethereum.on("accountsChanged", (accounts) => {
+        setWalletAddress(accounts[0] || "");
       });
     }
   }, []);
@@ -147,9 +231,6 @@ const[error , setError] = useState("");
       setIsRefCodeValid(false);
     }
   }, [ref]);
-
- 
-
 
   return (
     <main
@@ -162,13 +243,14 @@ const[error , setError] = useState("");
         width={800}
         height={300}
       ></Image>
-    
-        <div className={`text-5xl py-12 text-black ${out.className}`}>
-          fanly<span className="text-[#C80FB0]">AI</span>
-        </div>
-     
 
-      <p className={`text-[#C80FB0] text-3xl pb-8  ${out.className}`}>$FAIN private sale</p>
+      <div className={`text-5xl py-12 text-black ${out.className}`}>
+        fanly<span className="text-[#C80FB0]">AI</span>
+      </div>
+
+      <p className={`text-[#C80FB0] text-3xl pb-8  ${out.className}`}>
+        $FAIN private sale
+      </p>
 
       <div
         className={`flex rounded-xl text-black   filter backdrop-blur-sm ${jose.className} justify-start p-12 items-start border border-gray-300
@@ -176,15 +258,14 @@ const[error , setError] = useState("");
       >
         <div>
           <div className="flex tracking-widest flex-col text-center">
-            <p >
-            min buy : <span className="text-lg"> 1250 $FAIN</span>{" "}
+            <p>
+              min buy : <span className="text-lg"> 1250 $FAIN</span>{" "}
             </p>
-            <p >
-            max buy : <span className="text-lg"> 312500 $FAIN</span>{" "}
+            <p>
+              max buy : <span className="text-lg"> 312500 $FAIN</span>{" "}
             </p>
-            <p >
-            price :
-              <span className="text-lg"> 12500 $FAIN per 1 $BNB</span>{" "}
+            <p>
+              price :<span className="text-lg"> 12500 $FAIN per 1 $BNB</span>{" "}
             </p>
           </div>
           <div className="pt-4 pb-2 tracking-widest w-full md:w-[450px] text-center flex flex-col justify-center">
@@ -195,22 +276,29 @@ const[error , setError] = useState("");
               placeholder="please enter reference code"
               onChange={(event) => setRef(event.target.value)}
             ></input>
-            <p className=" tracking-widest pb-2 pt-4">
-            Enter $FAIN amount
-            </p>
+            <p className=" tracking-widest pb-2 pt-4">Enter $FAIN amount</p>
             <input
               disabled={isRefCodeValid ? false : true}
               className="w-full placeholder-[#b8a2b8] disabled:cursor-not-allowed disabled:opacity-40 p-2 bg-[#e6cce6]  rounded-lg"
               placeholder={
-                !isRefCodeValid ?"please enter reference code": "$FAIN amount"
+                !isRefCodeValid ? "please enter reference code" : "$FAIN amount"
               }
               value={amount}
               onChange={(event) => setAmount(event.target.value)}
             ></input>
             <div className=" flex flex-col items-center text-xl pt-4">
-              <div className="flex  items-center justify-center">Total: {calculate(amount)} $FAIN <span><Image className="pb-1" src="/test4.png" width={32} height={32}></Image></span> </div>
-              <div>Total: {calculateBNB(amount)}  $BNB</div>
-             
+              <div className="flex  items-center justify-center">
+                Total: {calculate(amount)} $FAIN{" "}
+                <span>
+                  <Image
+                    className="pb-1"
+                    src="/test4.png"
+                    width={32}
+                    height={32}
+                  ></Image>
+                </span>{" "}
+              </div>
+              <div>Total: {calculateBNB(amount)} $BNB</div>
             </div>
           </div>
           <div className="w-full ">
@@ -223,10 +311,9 @@ const[error , setError] = useState("");
                 ? error.toString() + "..."
                 : "Please connect wallet"}
             </button>
-            
+
             <button
               onClick={() => buyTokens(amount, ref)}
-              
               disabled={
                 calculate(amount) < 12 ||
                 calculate(amount) > 312500 ||
@@ -242,13 +329,12 @@ const[error , setError] = useState("");
                 ? "Amount must be lower than max"
                 : "Buy Now"}
             </button>
-            
-          
+
             {walletAddress ? (
               " "
             ) : (
               <p className="text-red-600 py-2 flex justify-center">
-               "Please connect wallet"
+                "Please connect wallet"
               </p>
             )}
             {/* <ProgressBar percentage={progress} /> */}
