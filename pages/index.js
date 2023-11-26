@@ -274,7 +274,7 @@ export default function Home() {
       </p>
 
       <div
-        className={`flex rounded-xl   text-white overflow-hidden  filter backdrop-blur-sm md:backdrop-blur-lg ${jose.className} justify-start p-12 items-start border border-gray-300
+        className={`flex rounded-xl   text-white overflow-hidden  filter backdrop-blur-md md:backdrop-blur-lg ${jose.className} justify-start p-12 items-start border border-gray-300
   w-full md:w-[550px] h-full md:h-full`}
       >
         <div>
