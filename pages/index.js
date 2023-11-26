@@ -266,7 +266,7 @@ export default function Home() {
       </div>
 
       <div className={`text-5xl  text-black ${out.className}`}>
-        <Image src="/vuzzAIlogo.png" width={150} height={200}></Image>
+        <Image src="/vuzzAIlogo.png" width={150} height={200} className="md:w-[150px] w-[100px]"></Image>
       </div>
 
       <p className={`text-white text-3xl pb-8  ${out.className}`}>
@@ -274,7 +274,7 @@ export default function Home() {
       </p>
 
       <div
-        className={`flex rounded-xl   text-white overflow-hidden  filter backdrop-blur-md md:backdrop-blur-lg ${jose.className} justify-start p-12 items-start border border-gray-300
+        className={`flex rounded-xl   text-white overflow-hidden  filter backdrop-blur-sm md:backdrop-blur-lg ${jose.className} justify-start p-12 items-start md:border md:border-gray-300
   w-full md:w-[550px] h-full md:h-full`}
       >
         <div>
