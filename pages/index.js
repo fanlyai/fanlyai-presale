@@ -208,6 +208,7 @@ export default function Home() {
         args: [amount * 10 ** 9, refCode],
       });
       console.log(hash);
+      alert("Open MetaMask App on your phone to approve buy.")
     } catch (error) {
       console.error("Error in buyTokens function:", error);
       alert(error);
