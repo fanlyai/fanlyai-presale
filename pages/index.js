@@ -259,7 +259,7 @@ export default function Home() {
         <div className="w-screen h-[52px] bg-white"></div>
       </div>
       <div className="absolute z-0 left-0 h-full w-full overflow-hidden ">
-        <div className="absolute left-1/2 top-[50px] md:top-[50px] ml-[-2000px] h-[4000px] w-[4000px] rounded-full bg-transparent shadow-[0px_10px_100px_0px_rgba(255,255,255)] "></div>
+        <div className="md:block hidden absolute left-1/2 top-[50px] md:top-[50px] ml-[-2000px] h-[4000px] w-[4000px] rounded-full bg-transparent shadow-[0px_10px_100px_0px_rgba(255,255,255)] "></div>
       </div>
 
       <div className={`text-5xl  text-black ${out.className}`}>
