@@ -233,7 +233,7 @@ export default function Home() {
 
   return (
     <main
-      className={`flex min-h-screen overflow-hidden bg-black tracking-widest z-50 flex-col items-center   pb-8 `}
+      className={`flex min-h-screen overflow-hidden md:pb-8 pb-80 bg-black tracking-widest z-50 flex-col items-center   `}
     >
       <div className="absolute flex top-24 md:top-80 opacity-40 flex-col space-y-1">
         <div className="w-screen h-[1px]  bg-white"></div>
@@ -272,7 +272,7 @@ export default function Home() {
       </p>
 
       <div
-        className={`flex rounded-xl md:pb-12 pb-48 text-white overflow-hidden  filter backdrop-blur-sm md:backdrop-blur-lg ${jose.className} justify-start p-12 items-start border border-gray-300
+        className={`flex rounded-xl   text-white overflow-hidden  filter backdrop-blur-sm md:backdrop-blur-lg ${jose.className} justify-start p-12 items-start border border-gray-300
   w-full md:w-[550px] h-full md:h-full`}
       >
         <div>
