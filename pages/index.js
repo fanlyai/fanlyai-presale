@@ -2,13 +2,17 @@ import Image from "next/image";
 import { Josefin_Sans, Outfit } from "next/font/google";
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
+import { readContract, writeContract, watchContractEvent } from "@wagmi/core";
+import { useAccount } from "wagmi";
 import Web3 from "web3";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const jose = Josefin_Sans({ weight: "400", subsets: ["latin"] });
 const out = Outfit({ weight: "200", subsets: ["latin"] });
 
 export default function Home() {
+  const accountData = useAccount();
+
   const BSC_MAINNET_RPC = "https://bsc-dataseed1.binance.org/"; // BSC Mainnet RPC URL
 
   const abi = [
@@ -115,6 +119,7 @@ export default function Home() {
   const [error, setError] = useState("");
   const [amount, setAmount] = useState("");
   const [ref, setRef] = useState("");
+  const [rate, setRate] = useState();
 
   function calculate(amount) {
     return amount;
@@ -168,45 +173,48 @@ export default function Home() {
     }
   }
 
+  const getRate = async () => {
+    const rate = await readContract({
+      address: contractAddress,
+      abi: abi,
+      functionName: "rate",
+    });
+    const rateInt = parseInt(rate); 
+    const updateRate = rateInt / 10 ** 18;
+    console.log(updateRate)
+    setRate(updateRate)
+    return updateRate;
+  };
+
+  useEffect(() => {
+    getRate();
+
+  }, []);
+
   // Function to buy tokens
   const buyTokens = async (amount, refCode) => {
     try {
-      // Initialize Web3 and contract
-      // Assumes MetaMask is used
-      const web3 = new Web3(window.ethereum);
-      const contract = new web3.eth.Contract(abi, contractAddress);
-
-      // Calculate required BNB based on the token amount and rate
-      const rate = await contract.methods.rate().call();
-      const rateInt = parseInt(rate); // Get the rate from the contract
-      const updateRate = rateInt / 10 ** 18;
-
-      console.log(updateRate);
-      console.log(amount);
-
+       const web3 = new Web3(window.ethereum);
+      getRate();
+      console.log("rate : "  + rate)
       const requiredBNB = web3.utils.toWei(
-        (amount / updateRate).toString(),
+        (amount / rate),
         "ether"
       );
-      console.log(requiredBNB);
-      console.log(refCode);
-
-      await contract.methods
-        .buyTokens(amount * 10 ** 9, refCode)
-        .send({
-          from: walletAddress,
-          value: requiredBNB,
-          gasPrice: "20000000000",
-        })
-        .on("transactionHash", (hash) => {
-          console.log("Transaction hash:", hash);
-        })
-        .on("receipt", (receipt) => {
-          console.log("Receipt:", receipt);
-        })
-        .on("error", (error) => {
-          console.error("Transaction failed:", error);
-        });
+     
+      const newReq = requiredBNB/ 10 **18;
+      console.log("REQ: "+ newReq + typeof(newReq))
+      const { hash } = await writeContract({
+        address: contractAddress,
+        abi: abi,
+        functionName: 'buyTokens',
+        value:requiredBNB,
+        args: [
+          amount * 10 ** 9,
+          refCode
+        ]
+      });
+      console.log(hash);
     } catch (error) {
       console.error("Error in buyTokens function:", error);
       alert(error)
@@ -268,6 +276,7 @@ export default function Home() {
             <p>
               price :<span className="text-lg"> 12500 $FAIN per 1 $BNB</span>{" "}
             </p>
+            <p>{accountData.address?.toString()}</p>
           </div>
           <div className="pt-4 pb-2 tracking-widest w-full md:w-[450px] text-center flex flex-col justify-center">
             <p className=" tracking-widest py-2">Enter REF Code</p>
@@ -307,9 +316,7 @@ export default function Home() {
 
             <button
               onClick={() => buyTokens(amount, ref)}
-              disabled={
-              false
-              }
+              disabled={false}
               className="text-black border border-black tracking-widest uppercase bg-white w-full disabled:opacity-40 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
             >
               {calculate(amount) < 12

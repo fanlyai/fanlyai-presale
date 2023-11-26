@@ -1,0 +1,18 @@
+ const buyTokens = async (amount, refCode) => {
+    try {
+    
+      const { hash } = await writeContract({
+        address: contractAddress,
+        abi: abi,
+        functionName: 'buyTokens',
+        args: [
+          amount * 10 **9,
+          refCode
+        ]
+      });
+      console.log(hash);
+    } catch (error) {
+      console.error("Error in buyTokens function:", error);
+      alert(error)
+    }
+  };
