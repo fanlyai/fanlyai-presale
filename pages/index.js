@@ -259,7 +259,7 @@ export default function Home() {
         <div className="w-screen h-[52px] bg-white"></div>
       </div>
       <div className="absolute z-0 left-0 h-full w-full overflow-hidden ">
-        <div className="md:block hidden absolute left-1/2 top-[50px] md:top-[50px] ml-[-2000px] h-[4000px] w-[4000px] rounded-full bg-transparent shadow-[0px_10px_100px_0px_rgba(255,255,255)] "></div>
+        <div className="absolute left-1/2 top-[50px] md:top-[50px] ml-[-2000px] h-[4000px] w-[4000px] rounded-full bg-transparent shadow-[0px_10px_100px_0px_rgba(255,255,255)] "></div>
       </div>
 
       <div className={`text-5xl  text-black ${out.className}`}>
@@ -287,7 +287,7 @@ export default function Home() {
             </p>
           </div>
           <div className="absolute left-0 h-full w-full overflow-hidden ">
-            <div className="absolute left-1/2 top-[620px] md:top-[300px] ml-[-2000px] h-[4000px] w-[4000px] rounded-full bg-transparent shadow-[0px_10px_100px_0px_rgba(255,255,255)_inset] "></div>
+            <div className="md:block hidden absolute left-1/2 top-[620px] md:top-[300px] ml-[-2000px] h-[4000px] w-[4000px] rounded-full bg-transparent shadow-[0px_10px_100px_0px_rgba(255,255,255)_inset] "></div>
           </div>
           <div className="pt-4 pb-2 tracking-widest w-full md:w-[450px] text-center flex flex-col justify-center">
             <p className=" tracking-widest py-2">Enter REF Code</p>
