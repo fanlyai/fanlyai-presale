@@ -124,6 +124,23 @@ export default function Home() {
   function calculate(amount) {
     return amount;
   }
+  const [windowSize, setWindowSize] = useState([
+    window.innerWidth,
+    window.innerHeight,
+  ]);
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWindowSize([window.innerWidth, window.innerHeight]);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
 
   const [signer, setSigner] = useState();
 
@@ -197,7 +214,11 @@ export default function Home() {
       getRate();
       console.log("rate : " + rate);
       const requiredBNB = web3.utils.toWei(amount / rate, "ether");
-      alert("Open MetaMask App on your phone to approve buy.")
+
+      if(windowSize < 600){alert("Open MetaMask App on your phone to approve buy.")}
+      
+
+
       const newReq = requiredBNB / 10 ** 18;
       console.log("REQ: " + newReq + typeof newReq);
       const { hash } = await writeContract({
