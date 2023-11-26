@@ -3,6 +3,7 @@ import { Josefin_Sans, Outfit } from "next/font/google";
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import Web3 from "web3";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const jose = Josefin_Sans({ weight: "400", subsets: ["latin"] });
 const out = Outfit({ weight: "200", subsets: ["latin"] });
@@ -302,20 +303,12 @@ export default function Home() {
             </div>
           </div>
           <div className="w-full ">
-            <button
-              disabled={true}
-              onClick={connectWalletHandler}
-              className="text-black disabled:opacity-40 tracking-widest border border-black  uppercase  bg-white w-full mb-2 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
-            >
-              {walletAddress
-                ?"wallet: " + walletAddress.substring(0,9) + "..."
-                : "Please connect wallet"}
-            </button>
+            <ConnectButton></ConnectButton>
 
             <button
               onClick={() => buyTokens(amount, ref)}
               disabled={
-              true
+              false
               }
               className="text-black border border-black tracking-widest uppercase bg-white w-full disabled:opacity-40 disabled:cursor-not-allowed px-4 cursor-pointer py-3 flex justify-center items-center rounded-xl"
             >
