@@ -1,12 +1,11 @@
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { getDefaultWallets, RainbowKitProvider, darkTheme, midnightTheme, lightTheme } from "@rainbow-me/rainbowkit";
 
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import {
-  
   bsc
 } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
@@ -33,10 +32,20 @@ const wagmiConfig = createConfig({
   webSocketPublicClient,
 });
 
+
 function MyApp({ Component, pageProps }) {
   return (
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider chains={chains} theme={lightTheme({
+       accentColor: '#000000',
+      
+       accentColorForeground: 'white',
+       borderRadius: 'large',
+       fontStack: 'system',
+       overlayBlur: 'small',
+     })}
+    
+      >
         <Component {...pageProps} />
       </RainbowKitProvider>
     </WagmiConfig>
