@@ -234,7 +234,7 @@ export default function Home() {
     <main
       className={`flex min-h-screen overflow-hidden bg-black tracking-widest z-50 flex-col items-center   pb-8 `}
     >
-      <div className="absolute flex top-80 opacity-40 flex-col space-y-1">
+      <div className="absolute flex top-24 md:top-80 opacity-40 flex-col space-y-1">
         <div className="w-screen h-[1px]  bg-white"></div>
         <div className="w-screen h-[2px] bg-white"></div>
         <div className="w-screen h-[3px] bg-white"></div>
@@ -271,8 +271,8 @@ export default function Home() {
       </p>
 
       <div
-        className={`flex rounded-xl text-white   filter backdrop-blur-sm md:backdrop-blur-lg ${jose.className} justify-start p-12 items-start border border-gray-300
-  w-full md:w-[550px] h-[600px] md:h-[550px]`}
+        className={`flex rounded-xl text-white overflow-hidden  filter backdrop-blur-sm md:backdrop-blur-lg ${jose.className} justify-start p-12 items-start border border-gray-300
+  w-full md:w-[550px] h-full md:h-[550px]`}
       >
         <div>
           <div className="flex tracking-widest flex-col text-center">
