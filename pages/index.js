@@ -197,7 +197,7 @@ export default function Home() {
       getRate();
       console.log("rate : " + rate);
       const requiredBNB = web3.utils.toWei(amount / rate, "ether");
-
+      alert("Open MetaMask App on your phone to approve buy.")
       const newReq = requiredBNB / 10 ** 18;
       console.log("REQ: " + newReq + typeof newReq);
       const { hash } = await writeContract({
@@ -208,7 +208,7 @@ export default function Home() {
         args: [amount * 10 ** 9, refCode],
       });
       console.log(hash);
-      alert("Open MetaMask App on your phone to approve buy.")
+      
     } catch (error) {
       console.error("Error in buyTokens function:", error);
       alert(error);
